@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-700: #0F766E;
+  --primary-800: #115E59;
+  --primary-50: #F0FDFA;
+  --ink-900: #0F172A;
+  --ink-600: #475569;
+  --ink-500: #64748B;
+  --line-300: #CBD5E1;
+  --bg-50: #F8FAFC;
+  --surface: #FFFFFF;
+
+  --success: #15803D;
+  --success-tint: #DCFCE7;
+  --info: #1E40AF;
+  --info-tint: #DBEAFE;
+  --warning: #92400E;
+  --warning-tint: #FEF3C7;
+  --danger: #B91C1C;
+  --danger-tint: #FEE2E2;
+}
+
+body {
+  background-color: var(--bg-50);
+  color: var(--ink-900);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,118 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---------- helpers ----------
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function hasRole() {
+      return signedIn()
+        && 'role' in request.auth.token
+        && request.auth.token.role in ['patient', 'doctor', 'receptionist', 'admin'];
+    }
+
+    function can(p) {
+      return hasRole() && 'perms' in request.auth.token && p in request.auth.token.perms;
+    }
+
+    function isActive() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.active == true;
+    }
+
+    // signed in, has a role claim, and the account is enabled
+    function isMember() {
+      return hasRole() && isActive();
+    }
+
+    function appt(id) {
+      return get(/databases/$(database)/documents/appointments/$(id)).data;
+    }
+
+    // ---------- users ----------
+    match /users/{uid} {
+      allow read: if signedIn()
+        && (request.auth.uid == uid || (can('users.manage') && isActive()));
+      allow write: if false;
+    }
+
+    // ---------- patients ----------
+    match /patients/{patientId} {
+      allow read: if isMember()
+        && (resource.data.uid == request.auth.uid || can('patients.search'));
+
+      // a patient may edit only their own display name
+      allow update: if isMember()
+        && resource.data.uid == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys()
+             .hasOnly(['name', 'nameLower', 'updatedAt'])
+        && request.resource.data.nameLower == request.resource.data.name.lower()
+        && request.resource.data.updatedAt == request.time;
+
+      allow create, delete: if false;
+    }
+
+    // ---------- reference data (read-only for members) ----------
+    match /specializations/{id} {
+      allow read: if isMember();
+      allow write: if false;
+    }
+    match /doctors/{id} {
+      allow read: if isMember();
+      allow write: if false;
+    }
+    match /slots/{id} {
+      allow read: if isMember();
+      allow write: if false;
+    }
+    match /configVersions/{id} {
+      allow read: if isMember();
+      allow write: if false;
+    }
+    match /meta/activeConfig {
+      allow read: if isMember();
+      allow write: if false;
+    }
+
+    // ---------- appointments ----------
+    match /appointments/{appointmentId} {
+      allow read: if isMember() && (
+        resource.data.patientUid == request.auth.uid
+        || (can('queue.view_own') && resource.data.doctorId == request.auth.uid)
+        || can('queue.view_all')
+      );
+      allow write: if false;
+
+      // symptom form
+      match /clinical/assessment {
+        allow read: if isMember() && (
+          appt(appointmentId).patientUid == request.auth.uid
+          || (can('queue.view_own') && appt(appointmentId).doctorId == request.auth.uid)
+          || can('appointments.edit_symptoms_for_patient')
+        );
+        allow write: if false;
+      }
+
+      // doctor notes (never the receptionist; admin not included by default)
+      match /clinical/consultation {
+        allow read: if isMember() && (
+          (can('consultation.manage') && appt(appointmentId).doctorId == request.auth.uid)
+          || appt(appointmentId).patientUid == request.auth.uid
+        );
+        allow write: if false;
+      }
+    }
+
+    // ---------- audit log ----------
+    match /auditLog/{entryId} {
+      allow read: if isMember() && can('audit.view');
+      allow write: if false;
+    }
+
+    // ---------- everything else ----------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

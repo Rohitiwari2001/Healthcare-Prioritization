@@ -1,0 +1,82 @@
+{
+  "common": {
+    "appName": "Smart Healthcare",
+    "disclaimer": "Decision-support prototype. Not a diagnostic tool. In an emergency call 112 immediately.",
+    "loading": "Loading...",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "back": "Back",
+    "next": "Next",
+    "signOut": "Sign out",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "nav": {
+    "home": "Home",
+    "book": "Book Appointment",
+    "myAppointments": "My Appointments",
+    "profile": "Profile",
+    "queue": "Live Queue",
+    "desk": "Reception Desk",
+    "patients": "Patients",
+    "walkIn": "Walk-in",
+    "reports": "Reports",
+    "slots": "Slots",
+    "doctors": "Doctors",
+    "users": "Users",
+    "config": "Scoring Config",
+    "audit": "Audit Log",
+    "simulation": "Simulation"
+  },
+  "status": {
+    "BOOKED": "Booked",
+    "CHECKED_IN": "Waiting",
+    "IN_PROGRESS": "In Consultation",
+    "COMPLETED": "Completed",
+    "CANCELLED": "Cancelled",
+    "NO_SHOW": "No-show"
+  },
+  "priority": {
+    "CRITICAL": "Critical",
+    "SEVERE": "Severe",
+    "MODERATE": "Moderate",
+    "MILD": "Mild"
+  },
+  "emergency": {
+    "advisory": "Your answers suggest a possible emergency. Please go to the nearest emergency department or call 112 immediately. You can still proceed to book.",
+    "badge": "Emergency Flagged"
+  },
+  "errors": {
+    "UNAUTHENTICATED": "Please sign in to continue.",
+    "NO_ROLE": "This account does not have access permissions. Contact the administrator.",
+    "FORBIDDEN": "You do not have permission to perform this action.",
+    "ACCOUNT_DISABLED": "Your account has been disabled. Please contact the administrator.",
+    "PASSWORD_CHANGE_REQUIRED": "You must change your password before continuing.",
+    "REAUTH_REQUIRED": "Session expired for this action. Please sign in again.",
+    "SELF_ACCESS_CHANGE_BLOCKED": "Administrators cannot modify their own administrative access.",
+    "VALIDATION_ERROR": "Please check the information you entered.",
+    "WEAK_PASSWORD": "Password must be at least 8 characters with at least one letter and one number.",
+    "ROLE_CHANGE_NOT_SUPPORTED": "Role changes for doctors or patients are not supported directly.",
+    "NOT_FOUND": "The requested item was not found.",
+    "SLOT_UNAVAILABLE": "This slot was just booked by someone else. Please choose another.",
+    "SLOT_IN_PAST": "This slot is in the past.",
+    "SLOT_BOOKED": "Cannot block a booked slot.",
+    "PATIENT_DOUBLE_BOOKED": "You already have an appointment scheduled at this time.",
+    "ALREADY_IN_QUEUE": "Patient is already checked in to this queue today.",
+    "DOCTOR_INACTIVE": "This doctor is currently not accepting appointments.",
+    "DOCTOR_BUSY": "Doctor already has a patient consultation in progress.",
+    "INVALID_STATE": "This action cannot be performed in the current status.",
+    "NOT_TODAY": "Check-in is only available on the day of your appointment.",
+    "NOT_REQUIRED": "Password change is not required for this account.",
+    "ALREADY_REGISTERED": "This account is already registered.",
+    "EMAIL_IN_USE": "An account with this email address already exists.",
+    "DUPLICATE": "An item with this name already exists.",
+    "POSSIBLE_DUPLICATE": "A matching patient record was found.",
+    "INVALID_LINK": "These patient profiles cannot be linked.",
+    "LAST_ADMIN": "Cannot modify or disable the only remaining administrator account.",
+    "RATE_LIMITED": "Too many requests. Please wait a moment and try again.",
+    "INTERNAL_ERROR": "Something went wrong. Please try again."
+  }
+}
